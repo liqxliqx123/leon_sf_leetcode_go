@@ -1,6 +1,10 @@
 package easy
 
-import "testing"
+import (
+	"fmt"
+	"strconv"
+	"testing"
+)
 
 //存在重复元素2
 //https://leetcode.cn/problems/contains-duplicate-ii/solutions/1218075/cun-zai-zhong-fu-yuan-su-ii-by-leetcode-kluvk/
@@ -27,4 +31,39 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 		m[v] = i
 	}
 	return false
+}
+
+//汇总区间
+//https://leetcode.cn/problems/summary-ranges/
+func TestSummaryRanges(t *testing.T) {
+	fmt.Println(summaryRanges([]int{0, 1, 2, 4, 5, 7}))
+	fmt.Println(summaryRanges([]int{0, 2, 3, 4, 6, 8, 9}))
+}
+
+func summaryRanges(nums []int) []string {
+	if len(nums) == 0 {
+		return []string{}
+	}
+	//遍历数组 如果i等于i-1的值+1,插入数组, 否则创建新数组
+	var ret []string
+	head := nums[0]
+	tail := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i] == nums[i-1]+1 {
+			tail = nums[i]
+		} else {
+			ret = append(ret, getStrForSummaryRanges(head, tail))
+			head = nums[i]
+			tail = nums[i]
+		}
+	}
+	ret = append(ret, getStrForSummaryRanges(head, tail))
+	return ret
+}
+
+func getStrForSummaryRanges(head, tail int) string {
+	if head == tail {
+		return strconv.Itoa(head)
+	}
+	return fmt.Sprintf("%d->%d", head, tail)
 }
