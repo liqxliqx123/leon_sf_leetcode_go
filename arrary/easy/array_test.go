@@ -120,8 +120,8 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 	return false
 }
 
-//汇总区间
-//https://leetcode.cn/problems/summary-ranges/
+// 汇总区间
+// https://leetcode.cn/problems/summary-ranges/
 func TestSummaryRanges(t *testing.T) {
 	fmt.Println(summaryRanges([]int{0, 1, 2, 4, 5, 7}))
 	fmt.Println(summaryRanges([]int{0, 2, 3, 4, 6, 8, 9}))
@@ -205,4 +205,54 @@ func missingNumber(nums []int) int {
 	}
 	return len(nums)
 
+}
+
+// 区域和检索 - 数组不可变
+// https://leetcode.cn/problems/range-sum-query-immutable/description/
+func TestSumRange(t *testing.T) {
+	numArray := Constructor([]int{-2, 0, 3, -5, 2, -1})
+	fmt.Println(numArray.SumRange(0, 2))
+	fmt.Println(numArray.SumRange(2, 5))
+	fmt.Println(numArray.SumRange(0, 5))
+}
+
+type NumArray struct {
+	nums []int
+}
+
+func Constructor(nums []int) NumArray {
+	return NumArray{
+		nums: nums,
+	}
+}
+
+func (n *NumArray) SumRange(left int, right int) int {
+	sum := 0
+	for i := left; i <= right; i++ {
+		sum += n.nums[i]
+	}
+	return sum
+}
+
+// 两个数组的交集
+// https://leetcode.cn/problems/intersection-of-two-arrays/description/
+func TestIntersection(t *testing.T) {
+	fmt.Println(intersection([]int{1, 2, 2, 1}, []int{2, 2}))
+	fmt.Println(intersection([]int{4, 9, 5}, []int{9, 4, 9, 8, 4}))
+}
+
+func intersection(nums1 []int, nums2 []int) []int {
+	var ret []int
+
+	m := make(map[int]struct{}, len(nums1))
+	for _, v := range nums1 {
+		m[v] = struct{}{}
+	}
+	for _, v := range nums2 {
+		if _, ok := m[v]; ok {
+			ret = append(ret, v)
+			delete(m, v)
+		}
+	}
+	return ret
 }
