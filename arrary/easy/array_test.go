@@ -303,3 +303,24 @@ func thirdMax(nums []int) int {
 	}
 	return nums[len(nums)-1]
 }
+
+//找到数组中消失的数字
+//https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/description/
+func TestFindDisappearedNumbers(t *testing.T) {
+	fmt.Println(findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1}))
+	fmt.Println(findDisappearedNumbers([]int{1, 1}))
+}
+
+func findDisappearedNumbers(nums []int) []int {
+	m := make(map[int]struct{}, len(nums))
+	for _, v := range nums {
+		m[v] = struct{}{}
+	}
+	var ret []int
+	for i := 1; i <= len(nums); i++ {
+		if _, ok := m[i]; !ok {
+			ret = append(ret, i)
+		}
+	}
+	return ret
+}
