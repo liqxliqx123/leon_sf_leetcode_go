@@ -254,3 +254,52 @@ func intersection(nums1 []int, nums2 []int) []int {
 	}
 	return ret
 }
+
+// 两个数组的交集2
+//https://leetcode.cn/problems/intersection-of-two-arrays-ii/
+func TestIntersect(t *testing.T) {
+	fmt.Println(intersect([]int{1, 2, 2, 1}, []int{2, 2}))
+	fmt.Println(intersect([]int{4, 9, 5}, []int{9, 4, 9, 8, 4}))
+}
+
+func intersect(nums1 []int, nums2 []int) []int {
+	var ret []int
+
+	m := make(map[int]int, len(nums1))
+	for _, v := range nums1 {
+		m[v] += 1
+	}
+	for _, v := range nums2 {
+		if _, ok := m[v]; ok {
+			ret = append(ret, v)
+			m[v] -= 1
+			if m[v] == 0 {
+				delete(m, v)
+			}
+		}
+	}
+	return ret
+}
+
+// 第三大的数
+//https://leetcode.cn/problems/third-maximum-number/
+func TestThirdMax(t *testing.T) {
+	fmt.Println(thirdMax([]int{3, 2, 1}))
+	fmt.Println(thirdMax([]int{1, 2}))
+	fmt.Println(thirdMax([]int{2, 2, 3, 1}))
+}
+
+func thirdMax(nums []int) int {
+	//排序
+	sort.Ints(nums)
+	m := make(map[int]struct{}, len(nums))
+	for i := len(nums) - 1; i >= 0; i-- {
+		if _, ok := m[nums[i]]; !ok {
+			m[nums[i]] = struct{}{}
+			if len(m) == 3 {
+				return nums[i]
+			}
+		}
+	}
+	return nums[len(nums)-1]
+}
