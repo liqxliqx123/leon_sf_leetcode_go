@@ -2,14 +2,12 @@ package easy
 
 import (
 	"fmt"
-
-	"strconv"
-
 	"sort"
-
+	"strconv"
 	"testing"
 )
 
+// 杨辉三角2
 // https://leetcode.cn/problems/pascals-triangle-ii/
 func TestPascals(t *testing.T) {
 	fmt.Println(getRow(0))
