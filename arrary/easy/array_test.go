@@ -256,7 +256,7 @@ func intersection(nums1 []int, nums2 []int) []int {
 }
 
 // 两个数组的交集2
-//https://leetcode.cn/problems/intersection-of-two-arrays-ii/
+// https://leetcode.cn/problems/intersection-of-two-arrays-ii/
 func TestIntersect(t *testing.T) {
 	fmt.Println(intersect([]int{1, 2, 2, 1}, []int{2, 2}))
 	fmt.Println(intersect([]int{4, 9, 5}, []int{9, 4, 9, 8, 4}))
@@ -282,7 +282,7 @@ func intersect(nums1 []int, nums2 []int) []int {
 }
 
 // 第三大的数
-//https://leetcode.cn/problems/third-maximum-number/
+// https://leetcode.cn/problems/third-maximum-number/
 func TestThirdMax(t *testing.T) {
 	fmt.Println(thirdMax([]int{3, 2, 1}))
 	fmt.Println(thirdMax([]int{1, 2}))
@@ -304,8 +304,8 @@ func thirdMax(nums []int) int {
 	return nums[len(nums)-1]
 }
 
-//找到数组中消失的数字
-//https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/description/
+// 找到数组中消失的数字
+// https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/description/
 func TestFindDisappearedNumbers(t *testing.T) {
 	fmt.Println(findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1}))
 	fmt.Println(findDisappearedNumbers([]int{1, 1}))
@@ -324,3 +324,35 @@ func findDisappearedNumbers(nums []int) []int {
 	}
 	return ret
 }
+
+func TestFindDisappearedNumbersV2(t *testing.T) {
+	fmt.Println(findDisappearedNumbersV2([]int{4, 3, 2, 7, 8, 2, 3, 1}))
+	fmt.Println(findDisappearedNumbersV2([]int{1, 1}))
+	fmt.Println(findDisappearedNumbersV2([]int{2, 2, 2, 2}))
+	fmt.Println(findDisappearedNumbersV2([]int{1, 1, 2, 4}))
+}
+
+func findDisappearedNumbersV2(nums []int) []int {
+	sort.Ints(nums)
+	var ret []int
+	l := len(nums) - 1
+	//头
+	for i := 0; i < nums[0]-1; i++ {
+		ret = append(ret, i+1)
+	}
+	//中间
+	for i := 1; i <= l; i++ {
+		if nums[i]-nums[i-1] > 1 {
+			for j := nums[i-1] + 1; j < nums[i]; j++ {
+				ret = append(ret, j)
+			}
+		}
+	}
+	//尾
+	for i := nums[l]; i < len(nums); i++ {
+		ret = append(ret, i+1)
+	}
+	return ret
+}
+
+// 1 2 2 3 3 4 7 8
