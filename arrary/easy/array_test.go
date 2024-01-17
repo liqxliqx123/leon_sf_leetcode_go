@@ -355,8 +355,8 @@ func findDisappearedNumbersV2(nums []int) []int {
 	return ret
 }
 
-//分发饼干
-//https://leetcode.cn/problems/assign-cookies/description/
+// 分发饼干
+// https://leetcode.cn/problems/assign-cookies/description/
 func TestFindContentChildren(t *testing.T) {
 	fmt.Println(findContentChildrenV2([]int{1, 2, 3}, []int{1, 1}))
 	fmt.Println(findContentChildrenV2([]int{1, 2}, []int{1, 2, 3}))
@@ -394,3 +394,49 @@ func findContentChildrenV2(g []int, s []int) int {
 	}
 	return j
 }
+
+//岛屿周长
+//https://leetcode.cn/problems/island-perimeter/description/
+//周长都有哪些边
+//每个格子4条边；如果旁边是水则算一条边
+//每行的陆地的开头的左边 和 结尾的右边
+//第一行的上边 和 最后一行的下边
+
+// 每行 包含开头和结尾2条边， 然后计算上边和下边
+func TestIslandPerimeter(t *testing.T) {
+	fmt.Println(islandPerimeter([][]int{{1, 1, 1}, {1, 0, 1}}))
+	//fmt.Println(islandPerimeter([][]int{{1, 0}}))
+	//fmt.Println(islandPerimeter([][]int{{1, 1}}))
+	fmt.Println(islandPerimeter([][]int{{0, 1, 0, 0}, {1, 1, 1, 0}, {0, 1, 0, 0}, {1, 1, 0, 0}}))
+
+}
+
+func islandPerimeter(grid [][]int) int {
+	var ret int
+
+	for i := 0; i < len(grid); i++ {
+		n := 0
+		for j := 0; j < len(grid[i]); j++ {
+			if grid[i][j] == 1 {
+				//上下边
+				if i == 0 {
+					n += 2 //上下边
+				} else {
+					n += 1 //下边
+					if grid[i-1][j] == 0 {
+						n += 1 //上边
+					} else {
+						n -= 1
+					}
+				}
+
+			}
+		}
+		ret += n
+		fmt.Println(n)
+	}
+	return ret
+}
+
+// 1 1 1
+// 1 0 1
