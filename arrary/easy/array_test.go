@@ -429,7 +429,22 @@ func islandPerimeter(grid [][]int) int {
 						n -= 1
 					}
 				}
-
+				//左边
+				if j == 0 {
+					n += 1
+				} else {
+					if grid[i][j-1] == 0 {
+						n += 1
+					}
+				}
+				//右边
+				if j == len(grid[i])-1 {
+					n += 1
+				} else {
+					if grid[i][j+1] == 0 {
+						n += 1
+					}
+				}
 			}
 		}
 		ret += n
@@ -440,3 +455,84 @@ func islandPerimeter(grid [][]int) int {
 
 // 1 1 1
 // 1 0 1
+
+// 最大连续1的个数
+// https://leetcode.cn/problems/max-consecutive-ones/description/
+func TestFindMaxConsecutiveOnes(t *testing.T) {
+	fmt.Println(findMaxConsecutiveOnes([]int{1, 1, 0, 1, 1, 1}))
+	fmt.Println(findMaxConsecutiveOnes([]int{1, 0, 1, 1, 0, 1}))
+}
+func findMaxConsecutiveOnes(nums []int) int {
+	var max int
+	var ret int
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 1 {
+			ret++
+			if ret > max {
+				max = ret
+			}
+		} else {
+			ret = 0
+		}
+	}
+	return max
+}
+
+//提莫攻击
+//https://leetcode.cn/problems/teemo-attacking/description/
+
+// 比较前后2个值， 如果差值>= duration 则总时间+=duration
+// 如果差值< duration, 则总时间+=差值
+// 最后一个值 总时间+=duration
+func TestFindPoisonedDuration(t *testing.T) {
+	fmt.Println(findPoisonedDuration([]int{1, 2}, 2))
+	fmt.Println(findPoisonedDuration([]int{1, 4}, 2))
+	fmt.Println(findPoisonedDuration([]int{1, 2, 3, 4, 5}, 5))
+}
+func findPoisonedDuration(timeSeries []int, duration int) int {
+	sum := 0
+	for i := 0; i < len(timeSeries); i++ {
+
+		if i > 0 {
+			if timeSeries[i]-timeSeries[i-1] >= duration {
+				sum += duration
+			} else {
+				sum += timeSeries[i] - timeSeries[i-1]
+			}
+		}
+		if i == len(timeSeries)-1 {
+			sum += duration
+		}
+	}
+	return sum
+}
+
+//下一个更大的元素
+//https://leetcode.cn/problems/next-greater-element-i/description/
+
+// 遍历每个nums1的元素， 找到对应值在nums2中的idx, 向右寻找第一个更大的元素，没有则返回-1
+func TestNextGreaterElement(t *testing.T) {
+	fmt.Println(nextGreaterElement([]int{4, 1, 2}, []int{1, 3, 4, 2}))
+	fmt.Println(nextGreaterElement([]int{2, 4}, []int{1, 2, 3, 4}))
+	fmt.Println(nextGreaterElement([]int{1, 3, 5, 2, 4}, []int{6, 5, 4, 3, 2, 1, 7}))
+}
+func nextGreaterElement(nums1 []int, nums2 []int) []int {
+	var ret []int
+	for i := 0; i < len(nums1); i++ {
+		bigger := -1
+		begin := false
+		for j := 0; j < len(nums2); j++ {
+			if nums2[j] == nums1[i] {
+				begin = true
+				continue
+			}
+			if begin && nums2[j] > nums1[i] {
+				bigger = nums2[j]
+				break
+			}
+
+		}
+		ret = append(ret, bigger)
+	}
+	return ret
+}
