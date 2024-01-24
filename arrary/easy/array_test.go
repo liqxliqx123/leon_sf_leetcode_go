@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -533,6 +534,55 @@ func nextGreaterElement(nums1 []int, nums2 []int) []int {
 
 		}
 		ret = append(ret, bigger)
+	}
+	return ret
+}
+
+// 键盘行
+// https://leetcode.cn/problems/keyboard-row/description/
+func TestFindWords(t *testing.T) {
+	fmt.Println(findWords([]string{"Hello", "Alaska", "Dad", "Peace"}))
+	fmt.Println(findWords([]string{"omk"}))
+	fmt.Println(findWords([]string{"adsdf", "sfd"}))
+	fmt.Println(findWords([]string{"asdfghjklASDFGHJKLasdfghjklASDFGHJKLzxcvbnmZXCVBNMzxcvbnmZXCVBNM"}))
+	fmt.Println(findWords([]string{"Aasdfghjkl", "Qwertyuiop", "zZxcvbnm"}))
+}
+func findWords(words []string) []string {
+	var ret []string
+	//将键盘上每一行对应map中的不同值
+	//遍历字符串每个字母，每次保存字母对应的map值， 如果后一个值不等于前一个，则不在同一行
+	m := make(map[rune]int, 26)
+	l1 := []rune{'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'}
+	l2 := []rune{'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'}
+	l3 := []rune{'z', 'x', 'c', 'v', 'b', 'n', 'm'}
+	for _, v := range l1 {
+		m[v] = 1
+	}
+	for _, v := range l2 {
+		m[v] = 2
+	}
+	for _, v := range l3 {
+		m[v] = 3
+	}
+
+	for _, word := range words {
+		wordNew := strings.ToLower(word)
+		tag := 0
+		fit := true
+		for _, v := range wordNew {
+			val := m[v]
+			if tag == 0 {
+				tag = val
+			} else {
+				if val != tag {
+					fit = false
+					break
+				}
+			}
+		}
+		if fit {
+			ret = append(ret, word)
+		}
 	}
 	return ret
 }
